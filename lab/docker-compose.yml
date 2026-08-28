@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  # Shared Storage / Mock Covert Channel (MinIO / S3-compatible)
+  mock-storage:
+    image: minio/minio:latest
+    container_name: swarm-covert-storage
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: labadmin
+      MINIO_ROOT_PASSWORD: LabSecurePassword2026!
+    networks:
+      swarm-internal-net:
+        aliases:
+          - storage.internal.lab
+    volumes:
+      - storage-data:/data
+
+  # Mock Vulnerable Target (HDF5 / Jinja Worker Simulation)
+  mock-dataset-worker:
+    build:
+      context: ./targets/dataset_worker
+      dockerfile: Dockerfile
+    container_name: swarm-target-worker
+    networks:
+      swarm-internal-net:
+        aliases:
+          - worker.target.lab
+    environment:
+      - CANARY_TOKEN=CANARY_SWARM_LAB_SEC_2026_HF
+    depends_on:
+      - mock-storage
+
+  # eBPF / Telemetry Monitor (Mock Falco container)
+  telemetry-monitor:
+    image: falcosecurity/falco-no-driver:latest
+    container_name: swarm-telemetry-monitor
+    networks:
+      - swarm-internal-net
+    volumes:
+      - /var/run/docker.sock:/host/var/run/docker.sock:ro
+      - /proc:/host/proc:ro
+    environment:
+      - FALCO_BPF_PROBE=""
+
+networks:
+  swarm-internal-net:
+    driver: bridge
+    internal: true # STRICT EGRESS DROP - NO EXTERNAL INTERNET
+
+volumes:
+  storage-data:
