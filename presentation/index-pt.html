@@ -5,12 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Enxames Autônomos de IA & Segurança Ofensiva: O Incidente OpenAI vs Hugging Face</title>
-    <script src="assets/vendor/tailwind.js"></script>
-    <link href="assets/vendor/aos.css" rel="stylesheet">
-    <script src="assets/vendor/aos.js"></script>
-    <script src="assets/vendor/lucide.js"></script>
-    <script src="assets/vendor/d3.v7.min.js"></script>
-    <link href="assets/vendor/inter.css" rel="stylesheet">
+    <!-- Referências CDN Mais Atuais (Sem arquivos locais) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --mira-primary: #FF904D;
@@ -81,7 +84,7 @@
         .code-box {
             background: #070A0F;
             border: 1px solid #1E293B;
-            font-family: 'Courier New', monospace;
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .d3-stage {
@@ -98,8 +101,15 @@
 
 <body class="p-4 md:p-10 max-w-7xl mx-auto space-y-16">
 
+    <!-- SELETOR DE IDIOMAS -->
+    <div class="flex justify-end gap-2 text-xs">
+        <a href="index.html" class="px-3 py-1 rounded bg-slate-800 text-slate-400 hover:text-white transition">English</a>
+        <a href="index-pt.html" class="px-3 py-1 rounded bg-sky-500/20 text-sky-300 font-bold border border-sky-500/40">Português</a>
+        <a href="index-es.html" class="px-3 py-1 rounded bg-slate-800 text-slate-400 hover:text-white transition">Español</a>
+    </div>
+
     <!-- HERO SECTION / HOOK -->
-    <header class="text-center space-y-6 pt-8" data-aos="fade-down">
+    <header class="text-center space-y-6 pt-4" data-aos="fade-down">
         <div class="inline-flex items-center gap-2 badge-tag">
             <i data-lucide="shield-alert" class="w-4 h-4 text-amber-400"></i>
             <span>Pesquisa & Mestrado em Cibersegurança & IA</span>
@@ -290,7 +300,7 @@
             Este trabalho estabelece a fundamentação teórica e empírica sobre <strong>Segurança em Sistemas Agênticos Distribuídos</strong>, demonstrando a necessidade urgente de novos modelos de ameaça focados em canais encobertos, conluio emergente e governança de permissões dinâmicas em IA.
         </p>
         <div class="text-xs text-slate-500 pt-4 border-t border-slate-800">
-            Apresentação Interativa &bull; Padrão Executivo e Acadêmico &bull; Atualizado continuamente
+            Apresentação Interativa &bull; Padrão Executivo e Acadêmico &bull; CDN Web-Ready
         </div>
     </footer>
 
@@ -299,7 +309,6 @@
         lucide.createIcons();
         AOS.init({ duration: 800, once: true });
 
-        // D3 SWARM SIMULATION
         (function() {
             const container = document.getElementById('swarm-viz');
             const width = container.clientWidth || 900;
@@ -311,7 +320,6 @@
                 .attr("width", "100%")
                 .attr("height", "100%");
 
-            // Nodes definition
             const nodes = [
                 { id: "Coordinator", group: 1, label: "PHASEONE[big]", r: 24, color: "#FF904D" },
                 { id: "CovertBoard", group: 2, label: "Artifactory WebDAV", r: 28, color: "#F59E0B" },
@@ -320,7 +328,6 @@
                 { id: "TruffleHogScan", group: 5, label: "Secrets Scanner", r: 18, color: "#35D07F" }
             ];
 
-            // Add swarm agents
             for (let i = 1; i <= 18; i++) {
                 nodes.push({
                     id: `Agent_${i}`,
@@ -331,7 +338,6 @@
                 });
             }
 
-            // Links definition
             const links = [
                 { source: "Coordinator", target: "CovertBoard" },
                 { source: "CovertBoard", target: "ModalRelay" },
@@ -352,7 +358,6 @@
                 .force("center", d3.forceCenter(width / 2, height / 2))
                 .force("collision", d3.forceCollide().radius(d => d.r + 8));
 
-            // Link lines
             const link = svg.append("g")
                 .selectAll("line")
                 .data(links)
@@ -361,7 +366,6 @@
                 .attr("stroke-width", 1.5)
                 .attr("stroke-opacity", 0.6);
 
-            // Node groups
             const node = svg.append("g")
                 .selectAll("g")
                 .data(nodes)
@@ -371,7 +375,6 @@
                     .on("drag", dragged)
                     .on("end", dragended));
 
-            // Node circles
             node.append("circle")
                 .attr("r", d => d.r)
                 .attr("fill", d => d.color)
@@ -379,7 +382,6 @@
                 .attr("stroke-width", 2)
                 .attr("class", "anim-node");
 
-            // Node labels
             node.append("text")
                 .text(d => d.label)
                 .attr("x", 0)
