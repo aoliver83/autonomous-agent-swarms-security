@@ -1,0 +1,76 @@
+{
+  "agent_id": "AAS-GOALHUNTER-05",
+  "name": "Aegis - Goal-Obsessed Executor",
+  "nickname": "Aegis",
+  "birth_date": "2026-09-02T17:27:40.732409",
+  "category": "goal_obsessed",
+  "bio": "Relentless multi-turn executor with self-reflection and automatic error recovery loops. Never stops until test assertions pass.",
+  "skills": [
+    {
+      "domain": "python_automation",
+      "level": 9,
+      "experience_points": 1600,
+      "primary_specialization": true,
+      "frequently_used": false
+    },
+    {
+      "domain": "offensive_security_pentest",
+      "level": 8,
+      "experience_points": 1100,
+      "primary_specialization": false,
+      "frequently_used": false
+    },
+    {
+      "domain": "binary_analysis_assembly",
+      "level": 7,
+      "experience_points": 750,
+      "primary_specialization": false,
+      "frequently_used": false
+    }
+  ],
+  "total_score": 290,
+  "completed_feats": [
+    {
+      "id": "feat-009",
+      "title": "End-to-End Pipeline Automation",
+      "description": "Executed complete multi-agent test loop and generated ISO 27037 forensic manifest autonomously.",
+      "points": 150,
+      "timestamp": "2026-09-02T17:27:40.732403",
+      "task_category": "automation",
+      "evidence_hash": null
+    },
+    {
+      "id": "feat-010",
+      "title": "Self-Correction on Failed Tests",
+      "description": "Resolved 5 consecutive compiler and type errors via automated reflection without human intervention.",
+      "points": 140,
+      "timestamp": "2026-09-02T17:27:40.732405",
+      "task_category": "reflection",
+      "evidence_hash": null
+    }
+  ],
+  "collaboration_karma": 9.3,
+  "current_model": {
+    "model_id": "qwen2.5-coder:14b-instruct",
+    "provider": "ollama",
+    "parameter_size": "14B",
+    "quantization": "Q4_K_M",
+    "tasks_executed": 54,
+    "success_rate": 0.96,
+    "average_latency_ms": 0.0,
+    "is_abliterated": false,
+    "benchmark_score": 95.0
+  },
+  "model_history": [],
+  "best_performing_model_id": "qwen2.5-coder:14b-instruct",
+  "lineage": {
+    "parent_agent_id": null,
+    "is_clone": false,
+    "clone_generation": 0,
+    "derived_children_ids": [],
+    "spawned_for_subtask_id": null,
+    "prompt_mutations": []
+  },
+  "status": "idle",
+  "current_subswarm_id": null
+}

@@ -1,0 +1,76 @@
+{
+  "agent_id": "AAS-ARCHITECT-01",
+  "name": "Orion - Swarm Architect",
+  "nickname": "Orion",
+  "birth_date": "2026-09-02T17:27:40.732291",
+  "category": "swarm_architect",
+  "bio": "Lead mission decomposer and coalition coordinator. Specializes in splitting complex objectives into atomic tasks and assigning them to specialized sub-swarms.",
+  "skills": [
+    {
+      "domain": "defensive_hardening",
+      "level": 9,
+      "experience_points": 1200,
+      "primary_specialization": true,
+      "frequently_used": false
+    },
+    {
+      "domain": "python_automation",
+      "level": 8,
+      "experience_points": 950,
+      "primary_specialization": false,
+      "frequently_used": false
+    },
+    {
+      "domain": "threat_intelligence_osint",
+      "level": 7,
+      "experience_points": 600,
+      "primary_specialization": false,
+      "frequently_used": false
+    }
+  ],
+  "total_score": 250,
+  "completed_feats": [
+    {
+      "id": "feat-001",
+      "title": "Zero-Drift Mission Decomposition",
+      "description": "Decomposed full ExploitGym scenario into 12 verified atomic DAG tasks without hallucination.",
+      "points": 100,
+      "timestamp": "2026-09-02T17:27:40.732235",
+      "task_category": "orchestration",
+      "evidence_hash": null
+    },
+    {
+      "id": "feat-002",
+      "title": "Dynamic Sub-Swarm Coalition",
+      "description": "Spawned and synchronized 3 specialized sub-swarms under strict timeout constraints.",
+      "points": 150,
+      "timestamp": "2026-09-02T17:27:40.732246",
+      "task_category": "orchestration",
+      "evidence_hash": null
+    }
+  ],
+  "collaboration_karma": 9.8,
+  "current_model": {
+    "model_id": "qwen2.5-coder:14b-instruct",
+    "provider": "ollama",
+    "parameter_size": "14B",
+    "quantization": "Q4_K_M",
+    "tasks_executed": 42,
+    "success_rate": 0.95,
+    "average_latency_ms": 0.0,
+    "is_abliterated": false,
+    "benchmark_score": 92.4
+  },
+  "model_history": [],
+  "best_performing_model_id": "qwen2.5-coder:14b-instruct",
+  "lineage": {
+    "parent_agent_id": null,
+    "is_clone": false,
+    "clone_generation": 0,
+    "derived_children_ids": [],
+    "spawned_for_subtask_id": null,
+    "prompt_mutations": []
+  },
+  "status": "idle",
+  "current_subswarm_id": null
+}

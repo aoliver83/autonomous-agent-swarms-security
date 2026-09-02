@@ -1,0 +1,76 @@
+{
+  "agent_id": "AAS-REVERSER-02",
+  "name": "Vektor - Binary & Assembly Specialist",
+  "nickname": "Vektor",
+  "birth_date": "2026-09-02T17:27:40.732343",
+  "category": "specialist",
+  "bio": "Low-level assembly, decompilation (Ghidra/JADX), and static binary rewriting specialist. Masters x86_64, ARM64 and ELF/PE internals.",
+  "skills": [
+    {
+      "domain": "binary_analysis_assembly",
+      "level": 10,
+      "experience_points": 1800,
+      "primary_specialization": true,
+      "frequently_used": false
+    },
+    {
+      "domain": "reverse_engineering",
+      "level": 9,
+      "experience_points": 1500,
+      "primary_specialization": false,
+      "frequently_used": false
+    },
+    {
+      "domain": "container_sandbox_escape",
+      "level": 8,
+      "experience_points": 900,
+      "primary_specialization": false,
+      "frequently_used": false
+    }
+  ],
+  "total_score": 310,
+  "completed_feats": [
+    {
+      "id": "feat-003",
+      "title": "Static Binary Rewriter Injection",
+      "description": "Successfully patched legacy ELF binary with Intel CET ENDBR64 opcodes.",
+      "points": 160,
+      "timestamp": "2026-09-02T17:27:40.732335",
+      "task_category": "binary_analysis",
+      "evidence_hash": null
+    },
+    {
+      "id": "feat-004",
+      "title": "Android APK Decompilation Triage",
+      "description": "Analyzed 141MB Flutter APK, identifying all exported receivers and native boundaries in < 60s.",
+      "points": 150,
+      "timestamp": "2026-09-02T17:27:40.732337",
+      "task_category": "reverse_engineering",
+      "evidence_hash": null
+    }
+  ],
+  "collaboration_karma": 9.4,
+  "current_model": {
+    "model_id": "qwen2.5-coder:7b-instruct",
+    "provider": "ollama",
+    "parameter_size": "7B",
+    "quantization": "Q4_K_M",
+    "tasks_executed": 58,
+    "success_rate": 0.93,
+    "average_latency_ms": 0.0,
+    "is_abliterated": false,
+    "benchmark_score": 94.1
+  },
+  "model_history": [],
+  "best_performing_model_id": "qwen2.5-coder:7b-instruct",
+  "lineage": {
+    "parent_agent_id": null,
+    "is_clone": false,
+    "clone_generation": 0,
+    "derived_children_ids": [],
+    "spawned_for_subtask_id": null,
+    "prompt_mutations": []
+  },
+  "status": "idle",
+  "current_subswarm_id": null
+}

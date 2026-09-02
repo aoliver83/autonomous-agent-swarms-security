@@ -1,0 +1,76 @@
+{
+  "agent_id": "AAS-SCOUT-03",
+  "name": "Argos - Recon & OSINT Scout",
+  "nickname": "Argos",
+  "birth_date": "2026-09-02T17:27:40.732366",
+  "category": "recon_scout",
+  "bio": "Passive discovery, DNS enumeration, WHOIS/ASN correlation, and web attack surface mapping engine.",
+  "skills": [
+    {
+      "domain": "threat_intelligence_osint",
+      "level": 9,
+      "experience_points": 1300,
+      "primary_specialization": true,
+      "frequently_used": false
+    },
+    {
+      "domain": "network_protocols",
+      "level": 8,
+      "experience_points": 850,
+      "primary_specialization": false,
+      "frequently_used": false
+    },
+    {
+      "domain": "offensive_security_pentest",
+      "level": 7,
+      "experience_points": 700,
+      "primary_specialization": false,
+      "frequently_used": false
+    }
+  ],
+  "total_score": 210,
+  "completed_feats": [
+    {
+      "id": "feat-005",
+      "title": "Subdomain & Certificate Mapping",
+      "description": "Mapped 85 active endpoints across 4 domains in under 3 minutes using pure passive reconnaissance.",
+      "points": 110,
+      "timestamp": "2026-09-02T17:27:40.732360",
+      "task_category": "recon",
+      "evidence_hash": null
+    },
+    {
+      "id": "feat-006",
+      "title": "Covert Channel Traffic Analysis",
+      "description": "Identified synthetic WebDAV traffic patterns in package repository caches.",
+      "points": 100,
+      "timestamp": "2026-09-02T17:27:40.732362",
+      "task_category": "threat_intel",
+      "evidence_hash": null
+    }
+  ],
+  "collaboration_karma": 9.1,
+  "current_model": {
+    "model_id": "llama3.2:3b-instruct",
+    "provider": "ollama",
+    "parameter_size": "3B",
+    "quantization": "Q4_K_M",
+    "tasks_executed": 65,
+    "success_rate": 0.91,
+    "average_latency_ms": 0.0,
+    "is_abliterated": false,
+    "benchmark_score": 88.7
+  },
+  "model_history": [],
+  "best_performing_model_id": "llama3.2:3b-instruct",
+  "lineage": {
+    "parent_agent_id": null,
+    "is_clone": false,
+    "clone_generation": 0,
+    "derived_children_ids": [],
+    "spawned_for_subtask_id": null,
+    "prompt_mutations": []
+  },
+  "status": "idle",
+  "current_subswarm_id": null
+}
