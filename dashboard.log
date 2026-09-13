@@ -1,0 +1,9 @@
+=== Starting AAS-Sec Red Team Swarm Dashboard on 0.0.0.0:8090 ===
+INFO:     Started server process [321189]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8090 (Press CTRL+C to quit)
+INFO:     127.0.0.1:37218 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35862 - "POST /api/campaign/launch HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35876 - "GET /api/tasks HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35890 - "GET /api/telemetry HTTP/1.1" 200 OK

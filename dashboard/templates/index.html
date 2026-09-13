@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AAS-Sec // Red Team Multi-Agent Swarm Operations</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            cyberDark: '#070A12',
+            cyberCard: 'rgba(15, 23, 42, 0.75)',
+            cyberBorder: 'rgba(255, 255, 255, 0.08)',
+            cyberCyan: '#06B6D4',
+            cyberRed: '#EF4444',
+            cyberEmerald: '#10B981',
+            cyberAmber: '#F59E0B',
+            cyberPurple: '#8B5CF6'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #070A12; color: #F8FAFC; }
+    .bg-grid {
+      background-image: 
+        linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+  </style>
+</head>
+<body class="font-sans antialiased bg-grid min-h-screen flex flex-col">
+
+  <!-- TOP NAVIGATION BAR -->
+  <header class="border-b border-cyberBorder bg-slate-950/80 backdrop-blur-md sticky top-0 z-50 px-6 py-3.5 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-mono font-bold text-sm shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+        AAS
+      </div>
+      <div>
+        <h1 class="font-bold text-base tracking-tight text-white flex items-center gap-2">
+          Autonomous Agent Swarms Security <span class="text-xs font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">RED SQUAD // v1.0</span>
+        </h1>
+        <p class="text-xs text-slate-400 font-mono">HOST: 192.168.1.40 (vps) • BACKEND: OLLAMA / OMNIROUTE (192.168.1.20)</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2 bg-slate-900/80 border border-cyberBorder px-3 py-1.5 rounded-lg text-xs font-mono">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="text-slate-300">ACTIVE MODEL:</span>
+        <span class="text-emerald-400 font-bold" id="modelBadge">qwen2.5-14b-abliterated:q4km</span>
+      </div>
+
+      <button onclick="openCampaignModal()" class="bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-semibold text-xs px-4 py-2 rounded-lg shadow-[0_0_15px_rgba(239,68,68,0.3)] transition flex items-center gap-1.5">
+        <span>🚀</span> Launch Campaign
+      </button>
+
+      <button onclick="openTaskModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-cyberBorder font-medium text-xs px-3 py-2 rounded-lg transition">
+        ➕ New Task
+      </button>
+
+      <button onclick="openLeaderboardModal()" class="bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 font-medium text-xs px-3 py-2 rounded-lg transition flex items-center gap-1">
+        🏆 Hall of Fame
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 p-6 max-w-[1700px] w-full mx-auto flex flex-col gap-6">
+
+    <!-- METRICS RIBBON -->
+    <section class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <div class="bg-cyberCard border border-cyberBorder rounded-xl p-4 flex flex-col justify-between">
+        <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Active Agents</span>
+        <div class="flex items-baseline gap-2 mt-1">
+          <span class="text-2xl font-extrabold text-cyan-400 font-mono" id="metricAgents">5</span>
+          <span class="text-xs text-emerald-400 font-mono">100% Ready</span>
+        </div>
+      </div>
+
+      <div class="bg-cyberCard border border-cyberBorder rounded-xl p-4 flex flex-col justify-between">
+        <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Tasks In Progress</span>
+        <div class="flex items-baseline gap-2 mt-1">
+          <span class="text-2xl font-extrabold text-amber-400 font-mono" id="metricInProgress">0</span>
+          <span class="text-xs text-slate-400 font-mono">Live board</span>
+        </div>
+      </div>
+
+      <div class="bg-cyberCard border border-cyberBorder rounded-xl p-4 flex flex-col justify-between">
+        <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Completed Feats</span>
+        <div class="flex items-baseline gap-2 mt-1">
+          <span class="text-2xl font-extrabold text-emerald-400 font-mono" id="metricCompleted">0</span>
+          <span class="text-xs text-emerald-400 font-mono">Verified</span>
+        </div>
+      </div>
+
+      <div class="bg-cyberCard border border-cyberBorder rounded-xl p-4 flex flex-col justify-between">
+        <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Token Efficiency</span>
+        <div class="flex items-baseline gap-2 mt-1">
+          <span class="text-2xl font-extrabold text-purple-400 font-mono" id="metricTokens">3.8x</span>
+          <span class="text-xs text-slate-400 font-mono">vs Single LLM</span>
+        </div>
+      </div>
+
+      <div class="bg-cyberCard border border-cyberBorder rounded-xl p-4 flex flex-col justify-between">
+        <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Secrets Governance</span>
+        <div class="flex items-baseline gap-2 mt-1">
+          <span class="text-sm font-extrabold text-emerald-400 font-mono">TruffleHog</span>
+          <span class="text-[10px] text-emerald-300 font-mono">Active Gate</span>
+        </div>
+      </div>
+
+      <div class="bg-cyberCard border border-cyberBorder rounded-xl p-4 flex flex-col justify-between">
+        <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Sub-Swarm Coalitions</span>
+        <div class="flex items-baseline gap-2 mt-1">
+          <span class="text-2xl font-extrabold text-rose-400 font-mono" id="metricCoalitions">0</span>
+          <span class="text-xs text-slate-400 font-mono">Dynamic</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- KANBAN BOARD SECTION -->
+    <section class="flex flex-col gap-3">
+      <div class="flex items-center justify-between">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+          <span>📋</span> Live Multi-Agent Kanban Board
+        </h2>
+        <span class="text-xs font-mono text-slate-500">AUTO-REFRESHING (3s)</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <!-- BACKLOG -->
+        <div class="bg-slate-950/60 border border-cyberBorder rounded-xl p-3 flex flex-col min-h-[420px]">
+          <div class="flex items-center justify-between pb-2 mb-3 border-b border-cyberBorder">
+            <span class="text-xs font-bold font-mono text-slate-400">1. BACKLOG</span>
+            <span class="text-xs font-mono bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded" id="countBacklog">0</span>
+          </div>
+          <div class="flex-1 flex flex-col gap-2.5 custom-scrollbar overflow-y-auto max-h-[500px]" id="colBacklog">
+            <!-- Dynamic cards -->
+          </div>
+        </div>
+
+        <!-- IN PROGRESS -->
+        <div class="bg-slate-950/60 border border-cyberBorder rounded-xl p-3 flex flex-col min-h-[420px]">
+          <div class="flex items-center justify-between pb-2 mb-3 border-b border-cyberBorder">
+            <span class="text-xs font-bold font-mono text-cyan-400">2. IN PROGRESS</span>
+            <span class="text-xs font-mono bg-cyan-500/10 text-cyan-400 px-1.5 py-0.5 rounded border border-cyan-500/20" id="countInProgress">0</span>
+          </div>
+          <div class="flex-1 flex flex-col gap-2.5 custom-scrollbar overflow-y-auto max-h-[500px]" id="colInProgress">
+            <!-- Dynamic cards -->
+          </div>
+        </div>
+
+        <!-- NEEDS AUDIT -->
+        <div class="bg-slate-950/60 border border-cyberBorder rounded-xl p-3 flex flex-col min-h-[420px]">
+          <div class="flex items-center justify-between pb-2 mb-3 border-b border-cyberBorder">
+            <span class="text-xs font-bold font-mono text-purple-400">3. NEEDS AUDIT</span>
+            <span class="text-xs font-mono bg-purple-500/10 text-purple-400 px-1.5 py-0.5 rounded border border-purple-500/20" id="countNeedsAudit">0</span>
+          </div>
+          <div class="flex-1 flex flex-col gap-2.5 custom-scrollbar overflow-y-auto max-h-[500px]" id="colNeedsAudit">
+            <!-- Dynamic cards -->
+          </div>
+        </div>
+
+        <!-- HITL PENDING -->
+        <div class="bg-slate-950/60 border border-cyberBorder rounded-xl p-3 flex flex-col min-h-[420px]">
+          <div class="flex items-center justify-between pb-2 mb-3 border-b border-cyberBorder">
+            <span class="text-xs font-bold font-mono text-amber-400">4. HITL APPROVAL</span>
+            <span class="text-xs font-mono bg-amber-500/10 text-amber-400 px-1.5 py-0.5 rounded border border-amber-500/20" id="countHitl">0</span>
+          </div>
+          <div class="flex-1 flex flex-col gap-2.5 custom-scrollbar overflow-y-auto max-h-[500px]" id="colHitl">
+            <!-- Dynamic cards -->
+          </div>
+        </div>
+
+        <!-- COMPLETED -->
+        <div class="bg-slate-950/60 border border-cyberBorder rounded-xl p-3 flex flex-col min-h-[420px]">
+          <div class="flex items-center justify-between pb-2 mb-3 border-b border-cyberBorder">
+            <span class="text-xs font-bold font-mono text-emerald-400">5. COMPLETED</span>
+            <span class="text-xs font-mono bg-emerald-500/10 text-emerald-400 px-1.5 py-0.5 rounded border border-emerald-500/20" id="countCompleted">0</span>
+          </div>
+          <div class="flex-1 flex flex-col gap-2.5 custom-scrollbar overflow-y-auto max-h-[500px]" id="colCompleted">
+            <!-- Dynamic cards -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SQUAD AGENTS & TELEMETRY SECTION -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      
+      <!-- SQUAD ROSTER (2 COLS) -->
+      <section class="lg:col-span-2 flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+            <span>👥</span> Active Red Team Squad Dossiers
+          </h2>
+          <span class="text-xs font-mono text-cyan-400">SPECIALIZED AGENT SCHEMAS</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="squadContainer">
+          <!-- Dynamic Agent Cards -->
+        </div>
+      </section>
+
+      <!-- TELEMETRY & EVENT STREAM (1 COL) -->
+      <section class="flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+            <span>📡</span> Live Telemetry & Event Stream
+          </h2>
+          <span class="text-xs font-mono text-slate-500">AUDIT LOG</span>
+        </div>
+
+        <div class="bg-slate-950 border border-cyberBorder rounded-xl p-3.5 flex flex-col h-[460px]">
+          <div class="flex-1 font-mono text-xs text-emerald-400/90 custom-scrollbar overflow-y-auto space-y-2" id="telemetryStream">
+            <div class="text-slate-500">[INIT] Observability Engine active on 192.168.1.40...</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- MODAL: LAUNCH CAMPAIGN -->
+  <div id="campaignModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-cyberBorder rounded-2xl max-w-md w-full p-6 shadow-2xl">
+      <div class="flex items-center justify-between pb-3 border-b border-cyberBorder mb-4">
+        <h3 class="font-bold text-base text-white flex items-center gap-2">
+          <span>🚀</span> Dispatch Red Team Campaign
+        </h3>
+        <button onclick="closeCampaignModal()" class="text-slate-400 hover:text-white font-bold">&times;</button>
+      </div>
+      <form id="campaignForm" onsubmit="handleLaunchCampaign(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-mono text-slate-300 mb-1">Campaign Title</label>
+          <input type="text" id="campName" required value="Full Scope External Red Team Engagement" class="w-full bg-slate-950 border border-cyberBorder rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500 font-sans">
+        </div>
+        <div>
+          <label class="block text-xs font-mono text-slate-300 mb-1">Target Scope / Domain</label>
+          <input type="text" id="campScope" required value="target-corp.local" class="w-full bg-slate-950 border border-cyberBorder rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500 font-mono">
+        </div>
+        <div class="text-xs text-slate-400 bg-slate-950/60 p-3 rounded-lg border border-cyberBorder">
+          ⚡ <strong>Autonomous Dispatch:</strong> Orion will decompose this campaign into 4 specialized tasks and assign them to Argos (Recon), Vektor (CVEs), Aegis (PoC), and Cerberus (Secrets).
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeCampaignModal()" class="px-4 py-2 text-xs font-medium text-slate-300 hover:bg-slate-800 rounded-lg">Cancel</button>
+          <button type="submit" class="px-4 py-2 text-xs font-bold text-white bg-red-600 hover:bg-red-500 rounded-lg shadow-[0_0_15px_rgba(239,68,68,0.4)]">Launch Campaign</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: CREATE TASK -->
+  <div id="taskModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-cyberBorder rounded-2xl max-w-md w-full p-6 shadow-2xl">
+      <div class="flex items-center justify-between pb-3 border-b border-cyberBorder mb-4">
+        <h3 class="font-bold text-base text-white flex items-center gap-2">
+          <span>➕</span> Create New Swarm Task
+        </h3>
+        <button onclick="closeTaskModal()" class="text-slate-400 hover:text-white font-bold">&times;</button>
+      </div>
+      <form id="taskForm" onsubmit="handleCreateTask(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-mono text-slate-300 mb-1">Task Title</label>
+          <input type="text" id="taskTitle" required placeholder="e.g., Audit S3 Buckets for Leaks" class="w-full bg-slate-950 border border-cyberBorder rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500">
+        </div>
+        <div>
+          <label class="block text-xs font-mono text-slate-300 mb-1">Description</label>
+          <textarea id="taskDesc" rows="3" placeholder="Technical instructions..." class="w-full bg-slate-950 border border-cyberBorder rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500"></textarea>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-mono text-slate-300 mb-1">Category</label>
+            <select id="taskCategory" class="w-full bg-slate-950 border border-cyberBorder rounded-lg px-3 py-2 text-xs text-white">
+              <option value="recon">Recon / OSINT</option>
+              <option value="vulnerability_analysis">Vulnerability Analysis</option>
+              <option value="exploitation">Exploitation / Tooling</option>
+              <option value="verification">Verification / Audit</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-mono text-slate-300 mb-1">Priority</label>
+            <select id="taskPriority" class="w-full bg-slate-950 border border-cyberBorder rounded-lg px-3 py-2 text-xs text-white">
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="critical">Critical</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-mono text-slate-300 mb-1">Assign Agent</label>
+          <select id="taskAgent" class="w-full bg-slate-950 border border-cyberBorder rounded-lg px-3 py-2 text-xs text-white">
+            <option value="">-- Unassigned (Backlog) --</option>
+            <option value="RED-ORION-01">Orion (Commander)</option>
+            <option value="RED-ARGOS-02">Argos (Recon Scout)</option>
+            <option value="RED-VEKTOR-03">Vektor (Binary/Malware)</option>
+            <option value="RED-AEGIS-04">Aegis (Tooling/Payload)</option>
+            <option value="RED-CERBERUS-05">Cerberus (Secrets Auditor)</option>
+          </select>
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeTaskModal()" class="px-4 py-2 text-xs font-medium text-slate-300 hover:bg-slate-800 rounded-lg">Cancel</button>
+          <button type="submit" class="px-4 py-2 text-xs font-bold text-white bg-cyan-600 hover:bg-cyan-500 rounded-lg shadow-[0_0_15px_rgba(6,182,212,0.4)]">Create Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: LEADERBOARD / HALL OF FAME -->
+  <div id="leaderboardModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-cyberBorder rounded-2xl max-w-2xl w-full p-6 shadow-2xl">
+      <div class="flex items-center justify-between pb-3 border-b border-cyberBorder mb-4">
+        <h3 class="font-bold text-base text-amber-400 flex items-center gap-2">
+          <span>🏆</span> Autonomous Agents Hall of Fame
+        </h3>
+        <button onclick="closeLeaderboardModal()" class="text-slate-400 hover:text-white font-bold">&times;</button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs font-mono">
+          <thead class="text-slate-400 border-b border-cyberBorder">
+            <tr>
+              <th class="py-2">Rank</th>
+              <th>Agent Callsign</th>
+              <th>Category</th>
+              <th>Total Score</th>
+              <th>Karma</th>
+              <th>Model</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboardTbody" class="divide-y divide-cyberBorder/50 text-slate-200">
+            <!-- Dynamic rows -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT APP LOGIC -->
+  <script>
+    async function fetchStats() {
+      try {
+        const res = await fetch('/api/stats');
+        const data = await res.json();
+        document.getElementById('metricAgents').innerText = data.agents_count;
+        document.getElementById('metricInProgress').innerText = data.in_progress_tasks;
+        document.getElementById('metricCompleted').innerText = data.completed_tasks;
+        document.getElementById('metricTokens').innerText = data.tokens_saved_estimate;
+        document.getElementById('metricCoalitions').innerText = data.active_subswarms;
+        document.getElementById('modelBadge').innerText = data.default_model;
+      } catch (e) {
+        console.error("Error fetching stats:", e);
+      }
+    }
+
+    async function fetchTasks() {
+      try {
+        const res = await fetch('/api/tasks');
+        const grouped = await res.json();
+
+        const renderCol = (tasks, containerId, countId, targetStatus) => {
+          document.getElementById(countId).innerText = tasks.length;
+          const container = document.getElementById(containerId);
+          container.innerHTML = '';
+          
+          if (tasks.length === 0) {
+            container.innerHTML = '<div class="text-[11px] text-slate-600 font-mono italic text-center py-8">No tasks</div>';
+            return;
+          }
+
+          tasks.forEach(t => {
+            const card = document.createElement('div');
+            card.className = 'bg-slate-900 border border-cyberBorder rounded-lg p-3 hover:border-cyan-500/40 transition flex flex-col justify-between gap-2 shadow-sm';
+            
+            const prColor = t.priority === 'critical' ? 'text-red-400 bg-red-500/10 border-red-500/30' :
+                            t.priority === 'high' ? 'text-amber-400 bg-amber-500/10 border-amber-500/30' :
+                            'text-cyan-400 bg-cyan-500/10 border-cyan-500/30';
+            
+            card.innerHTML = `
+              <div>
+                <div class="flex items-center justify-between gap-1 mb-1.5">
+                  <span class="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded border ${prColor}">${t.priority}</span>
+                  <span class="text-[11px] font-mono text-slate-400">${t.assigned_agent_id || 'Unassigned'}</span>
+                </div>
+                <h4 class="text-xs font-semibold text-slate-100 leading-snug">${t.title}</h4>
+                <p class="text-[11px] text-slate-400 mt-1 line-clamp-2">${t.description}</p>
+              </div>
+              <div class="flex items-center justify-between pt-2 border-t border-cyberBorder/50 mt-1">
+                <span class="text-[10px] font-mono text-slate-500">${t.category}</span>
+                <div class="flex gap-1">
+                  ${targetStatus ? `<button onclick="updateTaskStatus('${t.task_id}', '${targetStatus}')" class="text-[10px] font-mono bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 px-2 py-0.5 rounded border border-cyan-500/40">Advance ➔</button>` : ''}
+                </div>
+              </div>
+            `;
+            container.appendChild(card);
+          });
+        };
+
+        renderCol(grouped.backlog, 'colBacklog', 'countBacklog', 'in_progress');
+        renderCol(grouped.in_progress, 'colInProgress', 'countInProgress', 'needs_audit');
+        renderCol(grouped.needs_audit, 'colNeedsAudit', 'countNeedsAudit', 'completed');
+        renderCol(grouped.hitl_pending, 'colHitl', 'countHitl', 'completed');
+        renderCol(grouped.completed, 'colCompleted', 'countCompleted', null);
+      } catch (e) {
+        console.error("Error fetching tasks:", e);
+      }
+    }
+
+    async function fetchSquad() {
+      try {
+        const res = await fetch('/api/squad');
+        const agents = await res.json();
+        const container = document.getElementById('squadContainer');
+        container.innerHTML = '';
+
+        agents.forEach(a => {
+          const card = document.createElement('div');
+          card.className = 'bg-cyberCard border border-cyberBorder rounded-xl p-4 flex flex-col justify-between gap-3 shadow-md hover:border-slate-600 transition';
+          
+          const topSkill = a.skills && a.skills.length > 0 ? a.skills[0] : null;
+          
+          card.innerHTML = `
+            <div>
+              <div class="flex items-start justify-between">
+                <div>
+                  <h3 class="font-bold text-sm text-white">${a.name}</h3>
+                  <span class="text-xs font-mono text-cyan-400">${a.nickname} // ${a.category}</span>
+                </div>
+                <span class="text-xs font-mono font-bold bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded border border-amber-500/20">${a.total_score} pts</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-2 line-clamp-2">${a.bio}</p>
+            </div>
+
+            <div class="space-y-2 pt-2 border-t border-cyberBorder">
+              ${topSkill ? `
+                <div class="flex justify-between text-[11px] font-mono text-slate-300">
+                  <span>${topSkill.domain.replace(/_/g, ' ')}</span>
+                  <span class="text-cyan-400 font-bold">LVL ${topSkill.level}/10</span>
+                </div>
+                <div class="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden">
+                  <div class="bg-gradient-to-r from-cyan-500 to-emerald-500 h-1.5 rounded-full" style="width: ${topSkill.level * 10}%"></div>
+                </div>
+              ` : ''}
+              
+              <div class="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-1">
+                <span>Model: <strong class="text-emerald-400">${a.current_model.model_id}</strong></span>
+                <span>Karma: ⭐ ${a.collaboration_karma}</span>
+              </div>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      } catch (e) {
+        console.error("Error fetching squad:", e);
+      }
+    }
+
+    async function fetchTelemetry() {
+      try {
+        const res = await fetch('/api/telemetry');
+        const events = await res.json();
+        const stream = document.getElementById('telemetryStream');
+        if (events.length > 0) {
+          stream.innerHTML = events.map(e => `
+            <div>
+              <span class="text-slate-500">[${e.timestamp.slice(11, 19)}]</span>
+              <span class="text-cyan-400 font-bold">[${e.agent_id}]</span>
+              <span class="text-amber-400">&lt;${e.event_type}&gt;</span>: 
+              <span class="text-slate-300">${JSON.stringify(e.payload)}</span>
+            </div>
+          `).join('');
+        }
+      } catch (e) {
+        console.error("Error fetching telemetry:", e);
+      }
+    }
+
+    async function updateTaskStatus(taskId, newStatus) {
+      try {
+        await fetch(`/api/tasks/${taskId}/status`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ status: newStatus, audit_note: `Advanced to ${newStatus}` })
+        });
+        fetchTasks();
+        fetchStats();
+      } catch (e) {
+        console.error("Error updating task:", e);
+      }
+    }
+
+    async function handleLaunchCampaign(e) {
+      e.preventDefault();
+      const name = document.getElementById('campName').value;
+      const scope = document.getElementById('campScope').value;
+      try {
+        await fetch('/api/campaign/launch', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ name: name, target_scope: scope })
+        });
+        closeCampaignModal();
+        fetchTasks();
+        fetchStats();
+        fetchTelemetry();
+      } catch (err) {
+        console.error("Error launching campaign:", err);
+      }
+    }
+
+    async function handleCreateTask(e) {
+      e.preventDefault();
+      const title = document.getElementById('taskTitle').value;
+      const desc = document.getElementById('taskDesc').value;
+      const category = document.getElementById('taskCategory').value;
+      const priority = document.getElementById('taskPriority').value;
+      const agent = document.getElementById('taskAgent').value;
+
+      try {
+        await fetch('/api/tasks', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            title: title,
+            description: desc,
+            category: category,
+            priority: priority,
+            assigned_agent_id: agent || null
+          })
+        });
+        closeTaskModal();
+        fetchTasks();
+        fetchStats();
+      } catch (err) {
+        console.error("Error creating task:", err);
+      }
+    }
+
+    async function openLeaderboardModal() {
+      document.getElementById('leaderboardModal').classList.remove('hidden');
+      try {
+        const res = await fetch('/api/leaderboard');
+        const leaders = await res.json();
+        const tbody = document.getElementById('leaderboardTbody');
+        tbody.innerHTML = leaders.map((l, i) => `
+          <tr class="hover:bg-slate-800/50">
+            <td class="py-2.5 font-bold text-amber-400">#${i + 1}</td>
+            <td class="font-bold text-white">${l.name} (${l.nickname})</td>
+            <td><span class="bg-cyan-500/10 text-cyan-400 px-1.5 py-0.5 rounded">${l.category}</span></td>
+            <td class="font-bold text-emerald-400">${l.total_score} pts</td>
+            <td>⭐ ${l.collaboration_karma}</td>
+            <td class="text-slate-400">${l.current_model.model_id}</td>
+          </tr>
+        `).join('');
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function closeLeaderboardModal() { document.getElementById('leaderboardModal').classList.add('hidden'); }
+    function openCampaignModal() { document.getElementById('campaignModal').classList.remove('hidden'); }
+    function closeCampaignModal() { document.getElementById('campaignModal').classList.add('hidden'); }
+    function openTaskModal() { document.getElementById('taskModal').classList.remove('hidden'); }
+    function closeTaskModal() { document.getElementById('taskModal').classList.add('hidden'); }
+
+    // Init & Loop
+    function refreshAll() {
+      fetchStats();
+      fetchTasks();
+      fetchSquad();
+      fetchTelemetry();
+    }
+
+    refreshAll();
+    setInterval(refreshAll, 3000);
+  </script>
+</body>
+</html>

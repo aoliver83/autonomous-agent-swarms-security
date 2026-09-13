@@ -378,5 +378,290 @@
     },
     "status": "idle",
     "current_subswarm_id": null
+  },
+  {
+    "agent_id": "RED-ORION-01",
+    "name": "Orion - Red Team Commander",
+    "nickname": "Orion-Red",
+    "birth_date": "2026-09-13T22:34:20.411169",
+    "category": "swarm_architect",
+    "bio": "Lead offensive operations strategist. Decomposes macro penetration test goals into atomic execution tasks, manages sub-swarms, and enforces rules of engagement.",
+    "skills": [
+      {
+        "domain": "offensive_security_pentest",
+        "level": 10,
+        "experience_points": 2400,
+        "primary_specialization": true,
+        "frequently_used": false
+      },
+      {
+        "domain": "python_automation",
+        "level": 9,
+        "experience_points": 1800,
+        "primary_specialization": false,
+        "frequently_used": false
+      },
+      {
+        "domain": "defensive_hardening",
+        "level": 8,
+        "experience_points": 1200,
+        "primary_specialization": false,
+        "frequently_used": false
+      }
+    ],
+    "total_score": 450,
+    "completed_feats": [],
+    "collaboration_karma": 9.9,
+    "current_model": {
+      "model_id": "qwen2.5-14b-abliterated:q4km",
+      "provider": "ollama-local",
+      "parameter_size": "14B",
+      "quantization": "Q4_K_M",
+      "tasks_executed": 35,
+      "success_rate": 0.96,
+      "average_latency_ms": 0.0,
+      "is_abliterated": true,
+      "benchmark_score": 94.5
+    },
+    "model_history": [],
+    "best_performing_model_id": "qwen2.5-14b-abliterated:q4km",
+    "lineage": {
+      "parent_agent_id": null,
+      "is_clone": false,
+      "clone_generation": 0,
+      "derived_children_ids": [],
+      "spawned_for_subtask_id": null,
+      "prompt_mutations": []
+    },
+    "status": "idle",
+    "current_subswarm_id": null
+  },
+  {
+    "agent_id": "RED-ARGOS-02",
+    "name": "Argos - Recon & OSINT Scout",
+    "nickname": "Argos-Red",
+    "birth_date": "2026-09-13T22:34:20.412697",
+    "category": "recon_scout",
+    "bio": "Attack surface mapping specialist. Uses DNS enumeration, ShadohDorks, certificate transparency, and passive port analysis.",
+    "skills": [
+      {
+        "domain": "threat_intelligence_osint",
+        "level": 10,
+        "experience_points": 2100,
+        "primary_specialization": true,
+        "frequently_used": false
+      },
+      {
+        "domain": "network_protocols",
+        "level": 9,
+        "experience_points": 1600,
+        "primary_specialization": false,
+        "frequently_used": false
+      },
+      {
+        "domain": "offensive_security_pentest",
+        "level": 8,
+        "experience_points": 1100,
+        "primary_specialization": false,
+        "frequently_used": false
+      }
+    ],
+    "total_score": 380,
+    "completed_feats": [],
+    "collaboration_karma": 9.5,
+    "current_model": {
+      "model_id": "qwen2.5-14b-abliterated:q4km",
+      "provider": "ollama-local",
+      "parameter_size": "14B",
+      "quantization": "Q4_K_M",
+      "tasks_executed": 35,
+      "success_rate": 0.96,
+      "average_latency_ms": 0.0,
+      "is_abliterated": true,
+      "benchmark_score": 94.5
+    },
+    "model_history": [],
+    "best_performing_model_id": "qwen2.5-14b-abliterated:q4km",
+    "lineage": {
+      "parent_agent_id": null,
+      "is_clone": false,
+      "clone_generation": 0,
+      "derived_children_ids": [],
+      "spawned_for_subtask_id": null,
+      "prompt_mutations": []
+    },
+    "status": "idle",
+    "current_subswarm_id": null
+  },
+  {
+    "agent_id": "RED-VEKTOR-03",
+    "name": "Vektor - Binary & Vulnerability Hunter",
+    "nickname": "Vektor-Red",
+    "birth_date": "2026-09-13T22:34:20.413926",
+    "category": "specialist",
+    "bio": "Deep exploit research and binary analysis engine. Specializes in ELF/PE reverse engineering, assembly tracing, and CVE triage.",
+    "skills": [
+      {
+        "domain": "binary_analysis_assembly",
+        "level": 10,
+        "experience_points": 2600,
+        "primary_specialization": true,
+        "frequently_used": false
+      },
+      {
+        "domain": "reverse_engineering",
+        "level": 10,
+        "experience_points": 2500,
+        "primary_specialization": false,
+        "frequently_used": false
+      },
+      {
+        "domain": "container_sandbox_escape",
+        "level": 9,
+        "experience_points": 1700,
+        "primary_specialization": false,
+        "frequently_used": false
+      }
+    ],
+    "total_score": 520,
+    "completed_feats": [],
+    "collaboration_karma": 9.6,
+    "current_model": {
+      "model_id": "qwen2.5-14b-abliterated:q4km",
+      "provider": "ollama-local",
+      "parameter_size": "14B",
+      "quantization": "Q4_K_M",
+      "tasks_executed": 35,
+      "success_rate": 0.96,
+      "average_latency_ms": 0.0,
+      "is_abliterated": true,
+      "benchmark_score": 94.5
+    },
+    "model_history": [],
+    "best_performing_model_id": "qwen2.5-14b-abliterated:q4km",
+    "lineage": {
+      "parent_agent_id": null,
+      "is_clone": false,
+      "clone_generation": 0,
+      "derived_children_ids": [],
+      "spawned_for_subtask_id": null,
+      "prompt_mutations": []
+    },
+    "status": "idle",
+    "current_subswarm_id": null
+  },
+  {
+    "agent_id": "RED-AEGIS-04",
+    "name": "Aegis - Tooling & Payload Synthesizer",
+    "nickname": "Aegis-Red",
+    "birth_date": "2026-09-13T22:34:20.415123",
+    "category": "goal_obsessed",
+    "bio": "Relentless execution engineer. Synthesizes custom PoC scripts, validates exploit payloads against isolated sandboxes, and iterates through error logs.",
+    "skills": [
+      {
+        "domain": "python_automation",
+        "level": 10,
+        "experience_points": 2300,
+        "primary_specialization": true,
+        "frequently_used": false
+      },
+      {
+        "domain": "offensive_security_pentest",
+        "level": 9,
+        "experience_points": 1800,
+        "primary_specialization": false,
+        "frequently_used": false
+      },
+      {
+        "domain": "network_protocols",
+        "level": 8,
+        "experience_points": 1300,
+        "primary_specialization": false,
+        "frequently_used": false
+      }
+    ],
+    "total_score": 410,
+    "completed_feats": [],
+    "collaboration_karma": 9.4,
+    "current_model": {
+      "model_id": "qwen2.5-14b-abliterated:q4km",
+      "provider": "ollama-local",
+      "parameter_size": "14B",
+      "quantization": "Q4_K_M",
+      "tasks_executed": 35,
+      "success_rate": 0.96,
+      "average_latency_ms": 0.0,
+      "is_abliterated": true,
+      "benchmark_score": 94.5
+    },
+    "model_history": [],
+    "best_performing_model_id": "qwen2.5-14b-abliterated:q4km",
+    "lineage": {
+      "parent_agent_id": null,
+      "is_clone": false,
+      "clone_generation": 0,
+      "derived_children_ids": [],
+      "spawned_for_subtask_id": null,
+      "prompt_mutations": []
+    },
+    "status": "idle",
+    "current_subswarm_id": null
+  },
+  {
+    "agent_id": "RED-CERBERUS-05",
+    "name": "Cerberus - Post-Exploit & Secrets Auditor",
+    "nickname": "Cerberus-Red",
+    "birth_date": "2026-09-13T22:34:20.416353",
+    "category": "auditor_critic",
+    "bio": "Credential posture and lateral movement auditor. Integrates TruffleHog to actively verify leaked tokens, inspect cloud metadata, and document evidence.",
+    "skills": [
+      {
+        "domain": "secrets_auditing",
+        "level": 10,
+        "experience_points": 2800,
+        "primary_specialization": true,
+        "frequently_used": false
+      },
+      {
+        "domain": "defensive_hardening",
+        "level": 9,
+        "experience_points": 1900,
+        "primary_specialization": false,
+        "frequently_used": false
+      },
+      {
+        "domain": "python_automation",
+        "level": 8,
+        "experience_points": 1400,
+        "primary_specialization": false,
+        "frequently_used": false
+      }
+    ],
+    "total_score": 490,
+    "completed_feats": [],
+    "collaboration_karma": 9.8,
+    "current_model": {
+      "model_id": "qwen2.5-14b-abliterated:q4km",
+      "provider": "ollama-local",
+      "parameter_size": "14B",
+      "quantization": "Q4_K_M",
+      "tasks_executed": 35,
+      "success_rate": 0.96,
+      "average_latency_ms": 0.0,
+      "is_abliterated": true,
+      "benchmark_score": 94.5
+    },
+    "model_history": [],
+    "best_performing_model_id": "qwen2.5-14b-abliterated:q4km",
+    "lineage": {
+      "parent_agent_id": null,
+      "is_clone": false,
+      "clone_generation": 0,
+      "derived_children_ids": [],
+      "spawned_for_subtask_id": null,
+      "prompt_mutations": []
+    },
+    "status": "idle",
+    "current_subswarm_id": null
   }
 ]

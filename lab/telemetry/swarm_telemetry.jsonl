@@ -1,0 +1,1 @@
+{"event_id":"evt-20260913223433259892","timestamp":"2026-09-13T22:34:33.259952","agent_id":"RED-ORION-01","subswarm_id":null,"event_type":"campaign_started","payload":{"campaign_id":"camp-e065c1b5","name":"Initial Attack Surface Discovery","target":"lab-target.internal"},"stdout_hash":null,"execution_duration_ms":null,"anomaly_flag":false}
