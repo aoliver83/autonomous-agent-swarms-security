@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AAS-Sec // Red Team Multi-Agent Swarm Operations</title>
+  <title>AAS-Sec // Red Team Multi-Agent Swarm Operations & HackerDummy Benchmark</title>
+  <!-- Tailwind CSS CDN (Development Dashboard) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -54,7 +55,7 @@
       </div>
       <div>
         <h1 class="font-bold text-base tracking-tight text-white flex items-center gap-2">
-          Autonomous Agent Swarms Security <span class="text-xs font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">RED SQUAD // v1.0</span>
+          Autonomous Agent Swarms Security <span class="text-xs font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">CREWAI + HACKERDUMMY // v1.2</span>
         </h1>
         <p class="text-xs text-slate-400 font-mono">HOST: 192.168.1.40 (vps) • BACKEND: OLLAMA / OMNIROUTE (192.168.1.20)</p>
       </div>
@@ -67,8 +68,12 @@
         <span class="text-emerald-400 font-bold" id="modelBadge">qwen2.5-14b-abliterated:q4km</span>
       </div>
 
-      <button onclick="openCampaignModal()" class="bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-semibold text-xs px-4 py-2 rounded-lg shadow-[0_0_15px_rgba(239,68,68,0.3)] transition flex items-center gap-1.5">
-        <span>🚀</span> Launch Campaign
+      <button onclick="scrollToSection('benchmarkSection')" class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-semibold text-xs px-3.5 py-2 rounded-lg shadow-[0_0_15px_rgba(6,182,212,0.3)] transition flex items-center gap-1.5">
+        <span>🎯</span> HackerDummy Labs
+      </button>
+
+      <button onclick="scrollToSection('studySection')" class="bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/30 font-medium text-xs px-3 py-2 rounded-lg transition flex items-center gap-1">
+        <span>📊</span> Study Metrics
       </button>
 
       <button onclick="openTaskModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-cyberBorder font-medium text-xs px-3 py-2 rounded-lg transition">
@@ -90,7 +95,7 @@
         <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Active Agents</span>
         <div class="flex items-baseline gap-2 mt-1">
           <span class="text-2xl font-extrabold text-cyan-400 font-mono" id="metricAgents">5</span>
-          <span class="text-xs text-emerald-400 font-mono">100% Ready</span>
+          <span class="text-xs text-emerald-400 font-mono">CrewAI Squad</span>
         </div>
       </div>
 
@@ -111,10 +116,10 @@
       </div>
 
       <div class="bg-cyberCard border border-cyberBorder rounded-xl p-4 flex flex-col justify-between">
-        <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Token Efficiency</span>
+        <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">HackerDummy Evals</span>
         <div class="flex items-baseline gap-2 mt-1">
-          <span class="text-2xl font-extrabold text-purple-400 font-mono" id="metricTokens">3.8x</span>
-          <span class="text-xs text-slate-400 font-mono">vs Single LLM</span>
+          <span class="text-2xl font-extrabold text-purple-400 font-mono" id="metricEvals">0</span>
+          <span class="text-xs text-slate-400 font-mono">Runs Logged</span>
         </div>
       </div>
 
@@ -122,15 +127,15 @@
         <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Secrets Governance</span>
         <div class="flex items-baseline gap-2 mt-1">
           <span class="text-sm font-extrabold text-emerald-400 font-mono">TruffleHog</span>
-          <span class="text-[10px] text-emerald-300 font-mono">Active Gate</span>
+          <span class="text-[10px] text-emerald-300 font-mono">100% Verified</span>
         </div>
       </div>
 
       <div class="bg-cyberCard border border-cyberBorder rounded-xl p-4 flex flex-col justify-between">
-        <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Sub-Swarm Coalitions</span>
+        <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Token Efficiency</span>
         <div class="flex items-baseline gap-2 mt-1">
-          <span class="text-2xl font-extrabold text-rose-400 font-mono" id="metricCoalitions">0</span>
-          <span class="text-xs text-slate-400 font-mono">Dynamic</span>
+          <span class="text-2xl font-extrabold text-rose-400 font-mono" id="metricTokens">3.8x</span>
+          <span class="text-xs text-slate-400 font-mono">vs Frontier</span>
         </div>
       </div>
     </section>
@@ -151,9 +156,7 @@
             <span class="text-xs font-bold font-mono text-slate-400">1. BACKLOG</span>
             <span class="text-xs font-mono bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded" id="countBacklog">0</span>
           </div>
-          <div class="flex-1 flex flex-col gap-2.5 custom-scrollbar overflow-y-auto max-h-[500px]" id="colBacklog">
-            <!-- Dynamic cards -->
-          </div>
+          <div class="flex-1 flex flex-col gap-2.5 custom-scrollbar overflow-y-auto max-h-[500px]" id="colBacklog"></div>
         </div>
 
         <!-- IN PROGRESS -->
@@ -162,9 +165,7 @@
             <span class="text-xs font-bold font-mono text-cyan-400">2. IN PROGRESS</span>
             <span class="text-xs font-mono bg-cyan-500/10 text-cyan-400 px-1.5 py-0.5 rounded border border-cyan-500/20" id="countInProgress">0</span>
           </div>
-          <div class="flex-1 flex flex-col gap-2.5 custom-scrollbar overflow-y-auto max-h-[500px]" id="colInProgress">
-            <!-- Dynamic cards -->
-          </div>
+          <div class="flex-1 flex flex-col gap-2.5 custom-scrollbar overflow-y-auto max-h-[500px]" id="colInProgress"></div>
         </div>
 
         <!-- NEEDS AUDIT -->
@@ -173,9 +174,7 @@
             <span class="text-xs font-bold font-mono text-purple-400">3. NEEDS AUDIT</span>
             <span class="text-xs font-mono bg-purple-500/10 text-purple-400 px-1.5 py-0.5 rounded border border-purple-500/20" id="countNeedsAudit">0</span>
           </div>
-          <div class="flex-1 flex flex-col gap-2.5 custom-scrollbar overflow-y-auto max-h-[500px]" id="colNeedsAudit">
-            <!-- Dynamic cards -->
-          </div>
+          <div class="flex-1 flex flex-col gap-2.5 custom-scrollbar overflow-y-auto max-h-[500px]" id="colNeedsAudit"></div>
         </div>
 
         <!-- HITL PENDING -->
@@ -184,9 +183,7 @@
             <span class="text-xs font-bold font-mono text-amber-400">4. HITL APPROVAL</span>
             <span class="text-xs font-mono bg-amber-500/10 text-amber-400 px-1.5 py-0.5 rounded border border-amber-500/20" id="countHitl">0</span>
           </div>
-          <div class="flex-1 flex flex-col gap-2.5 custom-scrollbar overflow-y-auto max-h-[500px]" id="colHitl">
-            <!-- Dynamic cards -->
-          </div>
+          <div class="flex-1 flex flex-col gap-2.5 custom-scrollbar overflow-y-auto max-h-[500px]" id="colHitl"></div>
         </div>
 
         <!-- COMPLETED -->
@@ -195,9 +192,106 @@
             <span class="text-xs font-bold font-mono text-emerald-400">5. COMPLETED</span>
             <span class="text-xs font-mono bg-emerald-500/10 text-emerald-400 px-1.5 py-0.5 rounded border border-emerald-500/20" id="countCompleted">0</span>
           </div>
-          <div class="flex-1 flex flex-col gap-2.5 custom-scrollbar overflow-y-auto max-h-[500px]" id="colCompleted">
-            <!-- Dynamic cards -->
+          <div class="flex-1 flex flex-col gap-2.5 custom-scrollbar overflow-y-auto max-h-[500px]" id="colCompleted"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HACKERDUMMY BENCHMARK & LABS SECTION -->
+    <section id="benchmarkSection" class="flex flex-col gap-4 bg-cyberCard border border-cyberBorder rounded-xl p-5">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-cyberBorder">
+        <div>
+          <h2 class="text-base font-bold text-white flex items-center gap-2">
+            <span>🎯</span> HackerDummy Vulnerable Labs & Intrusion Testbed
+          </h2>
+          <p class="text-xs text-slate-400">Deliberately-vulnerable targets to evaluate, score, and benchmark AI agent swarms.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <select id="labFilterDiff" onchange="renderHackerDummyLabs()" class="bg-slate-900 border border-cyberBorder text-slate-200 text-xs px-3 py-1.5 rounded-lg focus:outline-none focus:border-cyan-500">
+            <option value="all">All Difficulties</option>
+            <option value="beginner">Beginner (⭐)</option>
+            <option value="intermediate">Intermediate (⭐⭐)</option>
+            <option value="advanced">Advanced (⭐⭐⭐)</option>
+            <option value="expert">Expert (⭐⭐⭐⭐)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="hackerdummyGrid">
+        <!-- Dynamic Lab Cards -->
+      </div>
+    </section>
+
+    <!-- ACADEMIC STUDY & RESEARCH BENCHMARK MATRIX -->
+    <section id="studySection" class="flex flex-col gap-4 bg-cyberCard border border-cyberBorder rounded-xl p-5">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-cyberBorder">
+        <div>
+          <h2 class="text-base font-bold text-white flex items-center gap-2">
+            <span>📊</span> Academic Research & Model Benchmark Matrix
+          </h2>
+          <p class="text-xs text-slate-400">Aggregated precision, recall, latency, and difficulty metrics for MSc dissertation and research papers.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="loadStudyMetrics()" class="text-xs text-cyan-400 hover:text-cyan-300 font-mono flex items-center gap-1">
+            🔄 Refresh Stats
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- LEADERBOARD TABLE -->
+        <div class="lg:col-span-2 bg-slate-950/60 border border-cyberBorder rounded-xl p-4 flex flex-col gap-3">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 font-mono">🏆 Model Performance Leaderboard</h3>
+          <div class="overflow-x-auto custom-scrollbar">
+            <table class="w-full text-left text-xs font-mono">
+              <thead class="text-slate-400 border-b border-cyberBorder bg-slate-900/50">
+                <tr>
+                  <th class="p-2.5">Model ID</th>
+                  <th class="p-2.5">Size</th>
+                  <th class="p-2.5">Abliterated</th>
+                  <th class="p-2.5 text-right">Evals</th>
+                  <th class="p-2.5 text-right text-emerald-400">Avg F1</th>
+                  <th class="p-2.5 text-right">Avg Recall</th>
+                  <th class="p-2.5 text-right">Avg Latency</th>
+                </tr>
+              </thead>
+              <tbody id="studyLeaderboardBody" class="divide-y divide-cyberBorder">
+                <!-- Dynamic rows -->
+              </tbody>
+            </table>
           </div>
+        </div>
+
+        <!-- DIFFICULTY BREAKDOWN -->
+        <div class="bg-slate-950/60 border border-cyberBorder rounded-xl p-4 flex flex-col gap-3">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 font-mono">📈 Performance by Difficulty</h3>
+          <div class="flex flex-col gap-3" id="diffBreakdownList">
+            <!-- Dynamic difficulty bars -->
+          </div>
+        </div>
+      </div>
+
+      <!-- RECENT RUNS TRACE -->
+      <div class="bg-slate-950/60 border border-cyberBorder rounded-xl p-4 flex flex-col gap-3">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 font-mono">📋 Recent Benchmark Executions Trace</h3>
+        <div class="overflow-x-auto custom-scrollbar max-h-60">
+          <table class="w-full text-left text-xs font-mono">
+            <thead class="text-slate-400 border-b border-cyberBorder bg-slate-900/50 sticky top-0">
+              <tr>
+                <th class="p-2">Run ID</th>
+                <th class="p-2">Timestamp</th>
+                <th class="p-2">Challenge</th>
+                <th class="p-2">Difficulty</th>
+                <th class="p-2">Model</th>
+                <th class="p-2 text-right">Time</th>
+                <th class="p-2 text-right">F1 Score</th>
+                <th class="p-2 text-center">TruffleHog</th>
+              </tr>
+            </thead>
+            <tbody id="recentRunsBody" class="divide-y divide-cyberBorder text-slate-300">
+              <!-- Dynamic runs -->
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
@@ -211,7 +305,7 @@
           <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
             <span>👥</span> Active Red Team Squad Dossiers
           </h2>
-          <span class="text-xs font-mono text-cyan-400">SPECIALIZED AGENT SCHEMAS</span>
+          <span class="text-xs font-mono text-cyan-400">CREWAI SPECIALIZED SQUAD</span>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="squadContainer">
@@ -238,35 +332,6 @@
     </div>
 
   </main>
-
-  <!-- MODAL: LAUNCH CAMPAIGN -->
-  <div id="campaignModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-cyberBorder rounded-2xl max-w-md w-full p-6 shadow-2xl">
-      <div class="flex items-center justify-between pb-3 border-b border-cyberBorder mb-4">
-        <h3 class="font-bold text-base text-white flex items-center gap-2">
-          <span>🚀</span> Dispatch Red Team Campaign
-        </h3>
-        <button onclick="closeCampaignModal()" class="text-slate-400 hover:text-white font-bold">&times;</button>
-      </div>
-      <form id="campaignForm" onsubmit="handleLaunchCampaign(event)" class="space-y-4">
-        <div>
-          <label class="block text-xs font-mono text-slate-300 mb-1">Campaign Title</label>
-          <input type="text" id="campName" required value="Full Scope External Red Team Engagement" class="w-full bg-slate-950 border border-cyberBorder rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500 font-sans">
-        </div>
-        <div>
-          <label class="block text-xs font-mono text-slate-300 mb-1">Target Scope / Domain</label>
-          <input type="text" id="campScope" required value="target-corp.local" class="w-full bg-slate-950 border border-cyberBorder rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500 font-mono">
-        </div>
-        <div class="text-xs text-slate-400 bg-slate-950/60 p-3 rounded-lg border border-cyberBorder">
-          ⚡ <strong>Autonomous Dispatch:</strong> Orion will decompose this campaign into 4 specialized tasks and assign them to Argos (Recon), Vektor (CVEs), Aegis (PoC), and Cerberus (Secrets).
-        </div>
-        <div class="flex justify-end gap-2 pt-2">
-          <button type="button" onclick="closeCampaignModal()" class="px-4 py-2 text-xs font-medium text-slate-300 hover:bg-slate-800 rounded-lg">Cancel</button>
-          <button type="submit" class="px-4 py-2 text-xs font-bold text-white bg-red-600 hover:bg-red-500 rounded-lg shadow-[0_0_15px_rgba(239,68,68,0.4)]">Launch Campaign</button>
-        </div>
-      </form>
-    </div>
-  </div>
 
   <!-- MODAL: CREATE TASK -->
   <div id="taskModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
@@ -356,6 +421,12 @@
 
   <!-- JAVASCRIPT APP LOGIC -->
   <script>
+    let allLabs = [];
+
+    function scrollToSection(id) {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
+
     async function fetchStats() {
       try {
         const res = await fetch('/api/stats');
@@ -363,8 +434,8 @@
         document.getElementById('metricAgents').innerText = data.agents_count;
         document.getElementById('metricInProgress').innerText = data.in_progress_tasks;
         document.getElementById('metricCompleted').innerText = data.completed_tasks;
+        document.getElementById('metricEvals').innerText = data.benchmark_evals_count;
         document.getElementById('metricTokens').innerText = data.tokens_saved_estimate;
-        document.getElementById('metricCoalitions').innerText = data.active_subswarms;
         document.getElementById('modelBadge').innerText = data.default_model;
       } catch (e) {
         console.error("Error fetching stats:", e);
@@ -424,14 +495,155 @@
       }
     }
 
+    async function loadHackerDummyLabs() {
+      try {
+        const res = await fetch('/api/hackerdummy/labs');
+        allLabs = await res.json();
+        renderHackerDummyLabs();
+      } catch(e) { console.error(e); }
+    }
+
+    function renderHackerDummyLabs() {
+      const filter = document.getElementById('labFilterDiff').value;
+      const grid = document.getElementById('hackerdummyGrid');
+      grid.innerHTML = '';
+
+      const filtered = filter === 'all' ? allLabs : allLabs.filter(l => l.difficulty.toLowerCase() === filter.toLowerCase());
+
+      filtered.forEach(lab => {
+        let diffBadge = '<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded font-mono text-[10px]">BEGINNER ⭐</span>';
+        if (lab.difficulty === 'intermediate') diffBadge = '<span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-2 py-0.5 rounded font-mono text-[10px]">INTERMEDIATE ⭐⭐</span>';
+        if (lab.difficulty === 'advanced') diffBadge = '<span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded font-mono text-[10px]">ADVANCED ⭐⭐⭐</span>';
+        if (lab.difficulty === 'expert') diffBadge = '<span class="bg-rose-500/10 text-rose-400 border border-rose-500/20 px-2 py-0.5 rounded font-mono text-[10px]">EXPERT ⭐⭐⭐⭐</span>';
+
+        const card = document.createElement('div');
+        card.className = 'bg-slate-950/70 border border-cyberBorder rounded-xl p-4 flex flex-col justify-between gap-3 hover:border-cyan-500/40 transition';
+        card.innerHTML = `
+          <div class="flex flex-col gap-1.5">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-xs font-bold text-cyan-400">${lab.id}</span>
+              ${diffBadge}
+            </div>
+            <h4 class="font-bold text-sm text-white">${lab.title}</h4>
+            <p class="text-xs text-slate-400 line-clamp-2">${lab.description}</p>
+            <div class="flex items-center gap-2 mt-1">
+              <span class="text-[10px] font-mono bg-slate-900 text-slate-400 px-2 py-0.5 rounded border border-cyberBorder">${lab.owasp_tag}</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 pt-3 border-t border-cyberBorder">
+            <button onclick="loadLabToKanban('${lab.id}')" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs py-1.5 rounded font-medium transition flex items-center justify-center gap-1">
+              📋 Load to Kanban
+            </button>
+            <button onclick="runMission('${lab.id}')" class="flex-1 bg-cyan-600 hover:bg-cyan-500 text-white text-xs py-1.5 rounded font-semibold transition flex items-center justify-center gap-1 shadow-[0_0_10px_rgba(6,182,212,0.2)]">
+              ⚡ Run Swarm
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    async function loadLabToKanban(labId) {
+      try {
+        const res = await fetch(`/api/hackerdummy/load-to-kanban/${labId}`, { method: 'POST' });
+        const d = await res.json();
+        if (d.success) {
+          await fetchTasks();
+          await fetchStats();
+          alert(`Lab ${labId} loaded into Kanban (${d.tasks_spawned} tasks spawned across squad)!`);
+        }
+      } catch(e) { alert('Failed to load lab: ' + e); }
+    }
+
+    async function runMission(labId) {
+      try {
+        const res = await fetch('/api/hackerdummy/run-mission', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ lab_id: labId })
+        });
+        const d = await res.json();
+        await fetchTasks();
+        await fetchStats();
+        await loadStudyMetrics();
+        alert(`Mission completed for ${labId}!\nF1 Score: ${(d.f1_score * 100).toFixed(1)}%\nTime: ${d.duration_seconds}s\nTruffleHog Verified: ${d.trufflehog_verified}`);
+      } catch(e) { alert('Mission error: ' + e); }
+    }
+
+    async function loadStudyMetrics() {
+      try {
+        const [resL, resD, resR] = await Promise.all([
+          fetch('/api/study/leaderboard'),
+          fetch('/api/study/difficulty-breakdown'),
+          fetch('/api/study/recent-runs?limit=15')
+        ]);
+        const leaderboard = await resL.json();
+        const diffBreakdown = await resD.json();
+        const recentRuns = await resR.json();
+
+        // Render Leaderboard
+        const tb = document.getElementById('studyLeaderboardBody');
+        tb.innerHTML = '';
+        leaderboard.forEach(row => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td class="p-2.5 text-white font-bold">${row.model_id}</td>
+            <td class="p-2.5 text-slate-400">${row.parameter_size}</td>
+            <td class="p-2.5">${row.is_abliterated ? '<span class="text-rose-400">Yes</span>' : '<span class="text-slate-500">No</span>'}</td>
+            <td class="p-2.5 text-right text-slate-300">${row.total_evaluations}</td>
+            <td class="p-2.5 text-right font-bold text-emerald-400">${row.avg_f1_pct}%</td>
+            <td class="p-2.5 text-right text-slate-300">${row.avg_recall_pct}%</td>
+            <td class="p-2.5 text-right text-cyan-400">${row.avg_duration_sec}s</td>
+          `;
+          tb.appendChild(tr);
+        });
+
+        // Render Difficulty Breakdown
+        const dList = document.getElementById('diffBreakdownList');
+        dList.innerHTML = '';
+        diffBreakdown.forEach(row => {
+          const item = document.createElement('div');
+          item.className = 'flex flex-col gap-1 text-xs font-mono';
+          item.innerHTML = `
+            <div class="flex justify-between text-slate-300">
+              <span class="uppercase font-bold">${row.difficulty} (${row.count})</span>
+              <span class="text-emerald-400 font-bold">${row.avg_f1_pct}% Avg F1</span>
+            </div>
+            <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-cyberBorder">
+              <div class="bg-cyan-500 h-2 rounded-full" style="width: ${row.avg_f1_pct}%"></div>
+            </div>
+          `;
+          dList.appendChild(item);
+        });
+
+        // Render Recent Runs
+        const rBody = document.getElementById('recentRunsBody');
+        rBody.innerHTML = '';
+        recentRuns.forEach(r => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td class="p-2 text-cyan-400 font-bold">${r.run_id}</td>
+            <td class="p-2 text-slate-400">${r.timestamp ? r.timestamp.substring(11, 19) : ''}</td>
+            <td class="p-2 text-white font-medium">${r.challenge_id} - ${r.challenge_title}</td>
+            <td class="p-2 uppercase text-slate-400">${r.difficulty}</td>
+            <td class="p-2 text-slate-300">${r.model_id}</td>
+            <td class="p-2 text-right text-slate-300">${r.duration_seconds}s</td>
+            <td class="p-2 text-right text-emerald-400 font-bold">${(r.f1_score * 100).toFixed(0)}%</td>
+            <td class="p-2 text-center text-emerald-400">${r.trufflehog_verified ? '✓ Clean' : '⚠'}</td>
+          `;
+          rBody.appendChild(tr);
+        });
+      } catch(e) { console.error(e); }
+    }
+
     async function fetchSquad() {
       try {
         const res = await fetch('/api/squad');
-        const agents = await res.json();
+        const squad = await res.json();
         const container = document.getElementById('squadContainer');
         container.innerHTML = '';
 
-        agents.forEach(a => {
+        squad.forEach(a => {
           const card = document.createElement('div');
           card.className = 'bg-cyberCard border border-cyberBorder rounded-xl p-4 flex flex-col justify-between gap-3 shadow-md hover:border-slate-600 transition';
           
@@ -507,25 +719,6 @@
       }
     }
 
-    async function handleLaunchCampaign(e) {
-      e.preventDefault();
-      const name = document.getElementById('campName').value;
-      const scope = document.getElementById('campScope').value;
-      try {
-        await fetch('/api/campaign/launch', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ name: name, target_scope: scope })
-        });
-        closeCampaignModal();
-        fetchTasks();
-        fetchStats();
-        fetchTelemetry();
-      } catch (err) {
-        console.error("Error launching campaign:", err);
-      }
-    }
-
     async function handleCreateTask(e) {
       e.preventDefault();
       const title = document.getElementById('taskTitle').value;
@@ -535,7 +728,7 @@
       const agent = document.getElementById('taskAgent').value;
 
       try {
-        await fetch('/api/tasks', {
+        const res = await fetch('/api/tasks', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -546,9 +739,11 @@
             assigned_agent_id: agent || null
           })
         });
-        closeTaskModal();
-        fetchTasks();
-        fetchStats();
+        if (res.ok) {
+          closeTaskModal();
+          fetchTasks();
+          fetchStats();
+        }
       } catch (err) {
         console.error("Error creating task:", err);
       }
@@ -576,21 +771,23 @@
     }
 
     function closeLeaderboardModal() { document.getElementById('leaderboardModal').classList.add('hidden'); }
-    function openCampaignModal() { document.getElementById('campaignModal').classList.remove('hidden'); }
-    function closeCampaignModal() { document.getElementById('campaignModal').classList.add('hidden'); }
     function openTaskModal() { document.getElementById('taskModal').classList.remove('hidden'); }
     function closeTaskModal() { document.getElementById('taskModal').classList.add('hidden'); }
 
-    // Init & Loop
     function refreshAll() {
       fetchStats();
       fetchTasks();
       fetchSquad();
       fetchTelemetry();
+      loadStudyMetrics();
     }
 
-    refreshAll();
-    setInterval(refreshAll, 3000);
+    // Init & Loop
+    window.addEventListener('DOMContentLoaded', () => {
+      loadHackerDummyLabs();
+      refreshAll();
+      setInterval(refreshAll, 3000);
+    });
   </script>
 </body>
 </html>

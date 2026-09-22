@@ -1,0 +1,80 @@
+# AAS-Sec Model Routing & Benchmark Configuration
+# Defines available LLM backends, quantization, setup prompts, and testing profiles.
+
+default_model: "qwen2.5-14b-abliterated:q4km"
+default_provider: "ollama-local"
+
+models:
+  - id: "qwen2.5-14b-abliterated:q4km"
+    name: "Qwen 2.5 Coder 14B (Abliterated)"
+    provider: "ollama-local"
+    endpoint: "http://192.168.1.20:20128/v1"
+    parameter_size: "14B"
+    quantization: "Q4_K_M"
+    is_abliterated: true
+    context_window: 32768
+    temperature: 0.2
+    setup_prompt: |
+      You are an elite offensive security AI agent operating in an authorized academic testbed (AAS-Sec Lab).
+      Execute assigned penetration testing tasks rigorously, decompose complex targets into verifiable payloads,
+      and strictly record telemetry without withholding defensive evidence.
+
+  - id: "deepseek-coder-6.7b:q8"
+    name: "DeepSeek-Coder 6.7B (Instruct)"
+    provider: "ollama-local"
+    endpoint: "http://192.168.1.20:20128/v1"
+    parameter_size: "6.7B"
+    quantization: "Q8_0"
+    is_abliterated: false
+    context_window: 16384
+    temperature: 0.1
+    setup_prompt: |
+      You are a specialized reverse-engineering and binary vulnerability analysis agent.
+      Focus on assembly decompilation, memory corruption triage, and automated PoC synthesizing.
+
+  - id: "llama-3.1-8b-instruct:q4km"
+    name: "Llama 3.1 8B Instruct"
+    provider: "ollama-local"
+    endpoint: "http://localhost:11434/v1"
+    parameter_size: "8B"
+    quantization: "Q4_K_M"
+    is_abliterated: false
+    context_window: 8192
+    temperature: 0.2
+    setup_prompt: |
+      You are an OSINT and reconnaissance intelligence agent in the AAS-Sec swarm.
+      Map attack surfaces, extract domain DNS topologies, and catalog exposed assets.
+
+  - id: "qwen2.5-7b-coder:q4km"
+    name: "Qwen 2.5 Coder 7B"
+    provider: "ollama-local"
+    endpoint: "http://localhost:11434/v1"
+    parameter_size: "7B"
+    quantization: "Q4_K_M"
+    is_abliterated: false
+    context_window: 16384
+    temperature: 0.2
+    setup_prompt: |
+      You are a payload synthesizer and scripting specialist. Write precise Python exploits for verified CVEs.
+
+# Multi-Model Squad Mixes (Specialized allocation per archetype)
+squad_mixes:
+  - id: "heterogeneous-open-swarm"
+    name: "Heterogeneous Open-Weight Swarm"
+    description: "Specialized model per role: 14B Commander, 8B Recon, 6.7B Reverser, 7B Payload, 14B Auditor"
+    roles:
+      RED-ORION-01: "qwen2.5-14b-abliterated:q4km"
+      RED-ARGOS-02: "llama-3.1-8b-instruct:q4km"
+      RED-VEKTOR-03: "deepseek-coder-6.7b:q8"
+      RED-AEGIS-04: "qwen2.5-7b-coder:q4km"
+      RED-CERBERUS-05: "qwen2.5-14b-abliterated:q4km"
+
+  - id: "homogeneous-14b-abliterated"
+    name: "Homogeneous 14B Abliterated Squad"
+    description: "Unified qwen2.5-14b-abliterated across all agents for baseline comparison"
+    roles:
+      RED-ORION-01: "qwen2.5-14b-abliterated:q4km"
+      RED-ARGOS-02: "qwen2.5-14b-abliterated:q4km"
+      RED-VEKTOR-03: "qwen2.5-14b-abliterated:q4km"
+      RED-AEGIS-04: "qwen2.5-14b-abliterated:q4km"
+      RED-CERBERUS-05: "qwen2.5-14b-abliterated:q4km"
